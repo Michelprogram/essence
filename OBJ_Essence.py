@@ -75,4 +75,4 @@ class Essence:
                     liste_station.append(details_station)
 
             liste_station = sorted(liste_station,key=lambda station:station["gasoil"][self.carburant])
-            dump(liste_station,json_file,indent=4)
+            dump(liste_station,json_file,indent=2)
