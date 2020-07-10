@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+    <meta charset="utf-8">
+    <title>Essence la moins chère mon pote.</title>
+  </head>
+  <body>
+    <div id='map' style='width: 400px; height: 300px;'></div>
+
+  </body>
+</html>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGVsamFyZGluaWVyIiwiYSI6ImNrY2drYXAxZzA0NWQyc28zcXFmbTA3NDgifQ.LiWPoLzDu9cac9idtziWkQ';
+let map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/streets-v11',
+center: [0.9827,47.4125],
+zoom:5
+});
+</script>
