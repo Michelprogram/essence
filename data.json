@@ -1,0 +1,50 @@
+[
+    {
+        "id": "37400006",
+        "latitude": "4739300",
+        "longitude": "98200",
+        "ville": "Amboise",
+        "adresse": "Boulevard saint denis hors",
+        "gasoil": {
+            "Gazole": "1.316",
+            "E10": "1.407"
+        }
+    },
+    {
+        "id": "37400002",
+        "latitude": "4740400",
+        "longitude": "101800",
+        "ville": "Amboise",
+        "adresse": "Avenue L\u00e9onard de Vinci",
+        "gasoil": {
+            "Gazole": "1.199",
+            "SP95": "1.334",
+            "GPLc": "0.790",
+            "E10": "1.298",
+            "SP98": "1.359"
+        }
+    },
+    {
+        "id": "37400004",
+        "latitude": "4740900",
+        "longitude": "97100",
+        "ville": "Amboise",
+        "adresse": "21 Avenue de Tours",
+        "gasoil": {
+            "Gazole": "1.221",
+            "E10": "1.308"
+        }
+    },
+    {
+        "id": "37400007",
+        "latitude": "4740508.13",
+        "longitude": "98627.14",
+        "ville": "Amboise",
+        "adresse": "44 B Rue Gr\u00e9goire de Tours",
+        "gasoil": {
+            "Gazole": "1.234",
+            "SP95": "1.358",
+            "SP98": "1.386"
+        }
+    }
+]

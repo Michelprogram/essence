@@ -1,7 +1,7 @@
 from requests import get
 from zipfile import ZipFile
 from bs4 import BeautifulSoup
-from json import loads
+from json import loads,dump
 
 class Essence:
 
@@ -10,7 +10,6 @@ class Essence:
         self.long = ""
         self.latt = ""
         self.city = ""
-        self.station_service = []
 
     def __get_zip(self):
         request = get("https://donnees.roulez-eco.fr/opendata/instantane")
@@ -44,30 +43,31 @@ class Essence:
         soup = BeautifulSoup(self.doc_xml,("xml"))
         list_soup = soup.find_all("ville",string="Amboise")
 
-        for ville in range(len(list_soup)):
-            details_station = {}
-            pdv = list_soup[ville].parent
+        with open("data.json","w",encoding="utf-8") as json_file:
+            liste_station = []
+            for ville in range(len(list_soup)):
+                details_station = {}
+                pdv = list_soup[ville].parent
 
-            details_station["id"] = pdv["id"]
-            details_station["latitude"] = pdv["latitude"]
-            details_station["longitude"] = pdv["longitude"]
-            details_station["ville"] = pdv.find("ville").get_text()
-            details_station["adresse"] = pdv.find("adresse").get_text()
+                details_station["id"] = pdv["id"]
+                details_station["latitude"] = pdv["latitude"]
+                details_station["longitude"] = pdv["longitude"]
+                details_station["ville"] = pdv.find("ville").get_text()
+                details_station["adresse"] = pdv.find("adresse").get_text()
 
-            liste_gasoil = pdv.find_all("prix")
-            liste_value = list(map(lambda x: x["valeur"] ,liste_gasoil))
-            liste_gasoil = list(map(lambda x: x["nom"] ,liste_gasoil))
-            gasoil_dict = {liste_gasoil[i]:liste_value[i] for i in range(len(liste_value))}
+                liste_gasoil = pdv.find_all("prix")
+                liste_value = list(map(lambda x: x["valeur"] ,liste_gasoil))
+                liste_gasoil = list(map(lambda x: x["nom"] ,liste_gasoil))
+                gasoil_dict = {liste_gasoil[i]:liste_value[i] for i in range(len(liste_value))}
 
-            details_station["gasoil"] = gasoil_dict
+                details_station["gasoil"] = gasoil_dict
 
-            self.station_service.append(details_station)
+                liste_station.append(details_station)
 
-    def low_cost(self,Gazole=False,E10=False,SP95=False,SP98):
-        pass
+            dump(liste_station,json_file,indent=4)
 
-t = Essence()
-t.find_city_xml()
-print(t.station_service)
 
+
+essence = Essence()
+essence.find_city_xml()
 #Faire une interface avec flask ou le client renseigne juste le type de gasoil qui l'intèresse qui un json qui le trie en fonction de l'essence chosis
