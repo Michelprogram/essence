@@ -8,15 +8,41 @@
   </head>
   <body>
     <div id='map' style='width: 400px; height: 300px;'></div>
-
   </body>
 </html>
 <script>
-mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGVsamFyZGluaWVyIiwiYSI6ImNrY2drYXAxZzA0NWQyc28zcXFmbTA3NDgifQ.LiWPoLzDu9cac9idtziWkQ';
-let map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11',
-center: [0.9827,47.4125],
-zoom:5
-});
+  mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGVsamFyZGluaWVyIiwiYSI6ImNrY2drYXAxZzA0NWQyc28zcXFmbTA3NDgifQ.LiWPoLzDu9cac9idtziWkQ';
+
+  let data = null
+
+  let request = new XMLHttpRequest()
+  request.onreadystatechange = () =>{
+  if(request.readyState == 4 && request.status ==200){
+     data = JSON.parse(request.responseText)
+     for (var i = 0; i < data.length; i++) {
+       creat_marker(data[i].longitude,data[i].latitude)
+     }
+    }
+  }
+  request.open("GET","http://localhost:5000/data")
+  request.send()
+
+  let longittude = parseFloat("{{longittude}}")
+  let lattitude = parseFloat("{{lattitude}}")
+
+  let map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [lattitude,longittude],
+      zoom:14
+  })
+
+  creat_marker(longittude,lattitude)
+
+  function creat_marker(long,latt){
+    var marker = new mapboxgl.Marker()
+      .setLngLat([latt, long])
+      .addTo(map);
+  }
+
 </script>
