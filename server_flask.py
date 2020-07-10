@@ -1,4 +1,5 @@
-from flask import Flask,render_template,request,url_for,redirect
+from flask import Flask,render_template,request,url_for,redirect,jsonify
+from json import loads
 from OBJ_Essence import *
 app = Flask(__name__)
 
@@ -24,11 +25,16 @@ def index():
         essence = Essence(carburant)
         essence.find_station()
 
-        return redirect(url_for("map"))
+        return redirect(url_for("map",long=essence.long,latt=essence.latt))
 
     return render_template("index.html")
 
-@app.route('/map')
-def map():
-    print("salut")
-    return render_template("map.html")
+@app.route('/map<float:long><float:latt>')
+def map(long,latt):
+    return render_template("map.html",longittude=long,lattitude=latt)
+
+@app.route("/data")
+def data():
+    with open("data.json","r",encoding="utf8") as json_file:
+        data = loads(json_file.read())
+    return jsonify(data)
