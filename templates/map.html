@@ -13,15 +13,19 @@
 <script>
   mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGVsamFyZGluaWVyIiwiYSI6ImNrY2drYXAxZzA0NWQyc28zcXFmbTA3NDgifQ.LiWPoLzDu9cac9idtziWkQ';
 
+
+
   let data = null
 
   let request = new XMLHttpRequest()
   request.onreadystatechange = () =>{
-  if(request.readyState == 4 && request.status ==200){
+  if(request.readyState == 4 && request.status == 200){
      data = JSON.parse(request.responseText)
-     for (var i = 0; i < data.length; i++) {
-       creat_marker(data[i].longitude,data[i].latitude)
-     }
+     data.forEach(station => {
+       new mapboxgl.Marker()
+       .setLngLat([station.longitude, station.latitude])
+       .addTo(map)
+     })
     }
   }
   request.open("GET","http://localhost:5000/data")
@@ -37,12 +41,9 @@
       zoom:14
   })
 
-  creat_marker(longittude,lattitude)
+  var center = new mapboxgl.Marker().setLngLat([lattitude, longittude]).addTo(map)
 
-  function creat_marker(long,latt){
-    var marker = new mapboxgl.Marker()
-      .setLngLat([latt, long])
-      .addTo(map);
-  }
+
+
 
 </script>

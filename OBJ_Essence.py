@@ -60,8 +60,8 @@ class Essence:
                 if len([prix for prix in liste_gasoil if prix["nom"]==self.carburant]) >= 1:
 
                     details_station["id"] = pdv["id"]
-                    details_station["latitude"] = pdv["latitude"]
-                    details_station["longitude"] = pdv["longitude"]
+                    details_station["latitude"] = float(pdv["latitude"])/100000
+                    details_station["longitude"] = float(pdv["longitude"])/100000 
                     details_station["ville"] = pdv.find("ville").get_text()
                     details_station["adresse"] = pdv.find("adresse").get_text()
 
