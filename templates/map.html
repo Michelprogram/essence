@@ -11,9 +11,7 @@
   </body>
 </html>
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGVsamFyZGluaWVyIiwiYSI6ImNrY2drYXAxZzA0NWQyc28zcXFmbTA3NDgifQ.LiWPoLzDu9cac9idtziWkQ';
-
-
+  mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGVsamFyZGluaWVyIiwiYSI6ImNrY2drYXAxZzA0NWQyc28zcXFmbTA3NDgifQ.LiWPoLzDu9cac9idtziWkQ'
 
   let data = null
 
@@ -21,11 +19,13 @@
   request.onreadystatechange = () =>{
   if(request.readyState == 4 && request.status == 200){
      data = JSON.parse(request.responseText)
-     data.forEach(station => {
-       new mapboxgl.Marker()
+     let liste_color = color(data)
+     data.forEach((station,index) => {
+       new mapboxgl.Marker({"color":liste_color[index]})
        .setLngLat([station.longitude, station.latitude])
        .addTo(map)
      })
+
     }
   }
   request.open("GET","http://localhost:5000/data")
@@ -41,9 +41,33 @@
       zoom:14
   })
 
-  var center = new mapboxgl.Marker().setLngLat([lattitude, longittude]).addTo(map)
+  var center = new mapboxgl.Marker({"color":"26,194,23"}).setLngLat([lattitude, longittude]).addTo(map)
 
 
+  function color(liste){
+    let vert = 24
+    let rouge = 194
+    let color_list = []
+    let median = ((liste.length %2) == 0) ?  liste.length /2 : ((liste.length)+1)/2
 
+    let facteur = Math.ceil(170/liste.length)
 
+    liste.forEach((item, i) => {
+      if ( i <= (median -1)){
+        vert += facteur
+        color_list.push(rgbToHex(vert,194,23))
+      }else{
+        rouge -= facteur
+        color_list.push(rgbToHex(194,rouge,23))
+      }
+    })
+
+    return color_list
+  }
+
+  function rgbToHex(r, g, b) {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+//24, 194, 23 / 194, 24, 23
 </script>
