@@ -61,7 +61,7 @@ class Essence:
 
                     details_station["id"] = pdv["id"]
                     details_station["latitude"] = float(pdv["latitude"])/100000
-                    details_station["longitude"] = float(pdv["longitude"])/100000 
+                    details_station["longitude"] = float(pdv["longitude"])/100000
                     details_station["ville"] = pdv.find("ville").get_text()
                     details_station["adresse"] = pdv.find("adresse").get_text()
 
