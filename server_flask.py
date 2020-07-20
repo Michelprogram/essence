@@ -22,10 +22,10 @@ def index():
         except KeyError:
             pass
 
-        essence = Essence(carburant)
+        essence = Essence(carburant,request.form["Longitude"],request.form["Latitude"])
         essence.find_station()
 
-        return redirect(url_for("map",long=essence.long,latt=essence.latt))
+        return redirect(url_for("map",long=essence.longitude,latt=essence.latitude))
 
     return render_template("index.html")
 
