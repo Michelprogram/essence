@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>Essence la moins chère mon pote.</title>
   </head>
+  <style>
+
+  </style>
   <body>
     <form  method="post">
       <input type="checkbox" id="Gazole" name="Gazole" value="Gazole">
@@ -15,7 +18,20 @@
       <input type="checkbox" id="SP98" name="SP98" value="SP98">
       <label for="SP98">SP98</label>
 
+      <input type="hidden" name="Longitude" class="Position" id="Longitude">
+      <input type="hidden" name="Latitude" class="Position" id="Latitude">
+
       <input type="submit"  value="Envoyer">
     </form>
   </body>
 </html>
+<script type="text/javascript">
+let latitude = document.querySelector("#Longitude")
+let longitude = document.querySelector("#Latitude")
+
+navigator.geolocation.getCurrentPosition((position)=>{
+  latitude.value =  position.coords.latitude
+  longitude.value = position.coords.longitude
+})
+
+</script>

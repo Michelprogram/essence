@@ -6,10 +6,10 @@ import time
 
 class Essence:
 
-    def __init__(self,carburant):
+    def __init__(self,carburant,longitude,latitude):
         self.doc_xml = ""
-        self.long = ""
-        self.latt = ""
+        self.longitude = longitude
+        self.latitude = latitude
         self.city = ""
         self.carburant = carburant
 
@@ -18,9 +18,7 @@ class Essence:
         with open("Essence.zip","wb") as zipfile:
             zipfile.write(request.content)
 
-
     def __get_xml(self):
-
         with ZipFile("Essence.zip", mode="r") as zip:
             with zip.open("PrixCarburants_instantane.xml", mode="r") as xml:
                     self.doc_xml = xml.read()
@@ -28,18 +26,30 @@ class Essence:
 
     def __get_coordinate(self):
 
-        request = get("https://ipinfo.io/")
-        coordonate = loads(request.text)
-        virgule = coordonate["loc"].index(",")
-        self.city = coordonate["city"]
-        self.long = coordonate["loc"][:virgule]
-        self.latt = coordonate["loc"][-virgule+1:]
+        url = "https://eu1.locationiq.com/v1/reverse.php"
+
+        data = {
+            "key":"24c7cdf61bec27",
+            "lat":self.longitude,
+            "lon":self.latitude,
+            "format":"json"
+        }
+
+        requete = get(url, params=data)
+        try:
+            self.city = reponse['address']['city']
+        except KeyError:
+            try:
+                self.city = reponse['address']['town']
+            except KeyError:
+                self.city = reponse['address']['village']
+        print(self.city)
 
 
     def _decorator(function):
         def wrapper(self):
             self.__get_zip()
-            self.__get_xml()
+            #self.__get_xml()
             self.__get_coordinate()
             function(self)
         return wrapper
@@ -47,7 +57,7 @@ class Essence:
     @_decorator
     def find_station(self):
         soup = BeautifulSoup(self.doc_xml,("lxml"))
-        list_soup = soup.find_all("ville",string="Amboise")
+        list_soup = soup.find_all("ville",string=self.city)
 
         with open("data.json","w",encoding="utf-8") as json_file:
             liste_station = []
