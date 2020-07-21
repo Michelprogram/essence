@@ -11,7 +11,7 @@ if(request.readyState == 4 && request.status == 200){
    let liste_color = color(data)
    data.forEach((station,index) => {
      let popup = new mapboxgl.Popup({ offset: 25 })
-                       .setHTML(html_popup(station.adresse,station.ville,station.gasoil))
+                    .setHTML(html_popup(station.adresse,station.ville,station.gasoil))
 
      new mapboxgl.Marker({"color":liste_color[index]})
      .setLngLat([station.longitude, station.latitude])
