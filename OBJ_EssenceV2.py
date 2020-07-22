@@ -15,15 +15,6 @@ class Essence:
         self.latitude = latitude
         self.city = []
 
-        """
-        ordre
-        1-__get_zip
-        2-get_xml
-        3-get_coordinate
-        4-check_station
-        5-find_station
-        """
-
     def _decorator(function):
         def wrapper(self):
             self.__get_zip()
@@ -96,9 +87,9 @@ class Essence:
     @_decorator
     def find_station(self):
         with open("data.json","w",encoding="utf-8") as json_file:
-
+            liste_station = []
             for i in range(len(self.city)):
-                liste_station = []
+
                 list_soup = self.soup_xml.find_all("ville",string=self.city[i])
 
 
@@ -124,9 +115,5 @@ class Essence:
 
                         liste_station.append(details_station)
 
-                liste_station = sorted(liste_station,key=lambda station:station["gasoil"][self.carburant])
-                dump(liste_station,json_file,indent=2)
-
-
-t = Essence("Gazole", "47.5433394", "1.0321285")
-t.find_station()
+            liste_station = sorted(liste_station,key=lambda station:station["gasoil"][self.carburant])
+            dump(liste_station,json_file,indent=2)
