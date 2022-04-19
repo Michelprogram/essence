@@ -39,7 +39,7 @@ class Essence:
         url = "https://eu1.locationiq.com/v1/reverse.php"
 
         data = {
-            "key":"24c7cdf61bec27",
+            "key":"/",
             "lat":self.longitude,
             "lon":self.latitude,
             "format":"json"
